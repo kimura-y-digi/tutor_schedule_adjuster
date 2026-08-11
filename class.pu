@@ -1,0 +1,83 @@
+@startuml
+
+class main {
+    // main関数
+    - vector<Person> people
+    - vector<Event> events
+    + int main()
+}
+
+class InputHandler {
+    // 入力受付クラス
+    - {static} static InputHandler* instance
+    - InputHandler()
+    + {static} static InputHandler& GetInstance()
+    + int ReceiveNumber()
+    + string ReceiveString()
+}
+
+class Person {
+    - {static} static int max_id
+    - int id
+    - string name
+    - vector<Event> events
+    + Person(string name)
+}
+
+class Event {
+    - {static} static int max_id
+    - int id
+    - string name
+    - vector<Person> perticipants
+    - sys_second start_datetime
+    - sys_second end_datetime
+    + Event()
+}
+
+struct EventCondition {
+    + int use_minutes
+    + vector<Person> participants
+    + string start_date
+    + string end_date
+    + string start_time
+    + string end_time
+}
+
+
+class EventCreator {
+    - vector<Person>* people
+    + EventCreator(vector<Person>* people)
+    + Event createEvent()
+    - void choiceMethod()
+    - const vector<Event>& collectEvents()
+    - bool hasBlank(EventCondition cd, const vector<Event> events)
+    - Event proposeEvent()
+    - bool 
+}
+
+class EventRemover {
+    - int current_page
+    - vector<Event>* events
+    + EventRemover(vector<Event>* events)
+    - void showEvents()
+    - void checkEvent(Event event)
+    - bool removeEvent(Event event)
+    + void run()
+}
+
+class PersonCreator {
+    - vector<Person>* people
+    + PersonRegister(vector<Person>* people)
+    + void run()
+}
+
+class PersonRemover {
+    - int current_page
+    - vector<Person>* people
+    + PersonRemover(vector<Person>* people)
+    - void showPeople()
+    
+    + void run()
+}
+
+@enduml
