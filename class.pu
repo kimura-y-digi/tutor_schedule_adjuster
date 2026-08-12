@@ -1,0 +1,114 @@
+@startuml
+
+class main {
+    // main関数
+    - vector<Person> people_
+    - vector<Event> events_
+    + int main()
+}
+
+class InputHandler {
+    // 入力受付クラス
+    - {static} static InputHandler* instance_
+    - InputHandler()
+    + {static} static InputHandler& GetInstance()
+    + int ReceiveNumber()
+    + string ReceiveString()
+}
+
+class Person {
+    - {static} static int max_id_
+    - int id_
+    - string name_
+    - vector<Event> events_  // removePerson時にeventからも消したい
+    + Person(string name)  // id をつける
+    + 必要なゲッターとセッター
+    + int removeMeFromEvents()  // 変更された予定の数を返す
+}
+
+class Event {
+    - {static} static int max_id_
+    - int id_
+    - string name_
+    - vector<Person> perticipants_  // removeEvent時にpersonからも消したい
+    - sys_second start_datetime_
+    - sys_second end_datetime_
+    + Event()  // id をつける
+    + 必要なゲッターとセッター
+    + bool HasEmpty()  // 未入力が無いか
+    + int removeThisFromParticitant()  // 変更された人の数を返す
+}
+
+struct EventCondition {
+    + int use_minutes
+    + vector<int> participants
+    + string start_date
+    + string end_date
+    + string start_time
+    + string end_time
+}
+
+class EventCreator {
+    - vector<Person>* people_
+    - vector<Event>* events_
+    + EventCreator(vector<Person>* people, vector<Event>* events)
+    - void choiceMethod()  // 提案か新規か分ける
+    - vector<int> pickParticipants()  // 複数人の選択, createEvent() か createEventCondition() から呼ぶ
+    - Event createEvent(Event proposed) // 状態的に、{予定の新規登録, 予定の情報入力, 出席者選択}
+    - bool addEvent(const Event& event)  // events_ に追加
+    - const vector<Event>& collectEvents(vector<int> targetPeople)  // 人に関連する予定の集計
+    - EventCondition createEventCondition()  // 状態的に、{予定の提案, 予定の検索条件, 招待者選択}
+    - bool proposeEvent(EventCondition cd, const vector<Event>& events, Event& outEvent)  // 予定の提案実施, 見つかった場合は outEvent に格納する
+    + void run()  // 処理を委任
+}
+
+class EventRemover {
+    - int current_page_
+    - const int kMaxPerPage
+    - vector<Event>* events_
+    + EventRemover(vector<Event>* events)
+    - void showEvents()  // current_page_ を使って kMaxPerPage 件ごとに表示
+    - void dispEventDetail(int id)  // 状態的には削除確認
+    - bool removeEvent(int id)
+    + void run()  // 処理を委任
+}
+
+class PersonCreator {
+    - vector<Person>* people_
+    + PersonRegister(vector<Person>* people)
+    + void run()  // 処理を委任
+}
+
+class PersonRemover {
+    - int current_page_
+    - const int kMaxPerPage
+    - vector<Person>* people_
+    + PersonRemover(vector<Person>* people)
+    - void showPeople()  // current_page_ を使って kMaxPerPage 件ごとに表示
+    - void dispPersonDetail(int id)  // 状態的には削除確認
+    - bool removePerson(int id)  // 関連Eventの削除も必要
+    + void run()  // 処理を委任
+}
+
+class CsvFileAccessor {
+    - string kPersonFilePath
+    - string kEventFilePath
+    - vector<Person>* people_
+    - vector<Event>* events_
+    + CsvFileAccessor(vector<Person>* people, vector<Event>* events)
+    + bool writeCsvFile()  // 処理を委任
+    + bool readCsvFile()  // 処理を委任, max_id_ の変更も必要
+}
+
+main *-- EventCreator
+main *-- EventRemover
+main *-- PersonCreator
+main *-- PersonRemover
+main *-- CsvFileAccessor
+
+InputHandler -[Hidden]- main
+Person -[Hidden]- main
+Event -[Hidden]- main
+EventCondition -[Hidden]- main
+
+@enduml
