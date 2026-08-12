@@ -11,9 +11,9 @@ class InputHandler {
     // 入力受付クラス
     - {static} static InputHandler* instance_
     - InputHandler()
-    + {static} static InputHandler& GetInstance()
-    + int ReceiveNumber()
-    + string ReceiveString()
+    + {static} static InputHandler* getInstance()
+    + int receiveNumber()
+    + string receiveString()
 }
 
 class Person {
@@ -22,7 +22,7 @@ class Person {
     - string name_
     - vector<Event> events_  // removePerson時にeventからも消したい
     + Person(string name)  // id をつける
-    + 必要なゲッターとセッター
+    + 必要なゲッターとセッター()
     + int removeMeFromEvents()  // 変更された予定の数を返す
 }
 
@@ -30,13 +30,13 @@ class Event {
     - {static} static int max_id_
     - int id_
     - string name_
-    - vector<Person> perticipants_  // removeEvent時にpersonからも消したい
-    - sys_second start_datetime_
-    - sys_second end_datetime_
+    - vector<Person> participants_  // removeEvent時にpersonからも消したい
+    - sys_seconds start_datetime_
+    - sys_seconds end_datetime_
     + Event()  // id をつける
-    + 必要なゲッターとセッター
-    + bool HasEmpty()  // 未入力が無いか
-    + int removeThisFromParticitant()  // 変更された人の数を返す
+    + 必要なゲッターとセッター()
+    + bool hasEmpty()  // 未入力が無いか
+    + int removeThisFromParticipant()  // 変更された人の数を返す
 }
 
 struct EventCondition {

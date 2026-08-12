@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="ScheduleApp/ScheduleApp.vcxproj" />
+  <Project Path="ScheduleApp/ScheduleApp.vcxproj" Id="86a7c349-59c1-46a2-8f08-b0ec09dd464e" />
 </Solution>
