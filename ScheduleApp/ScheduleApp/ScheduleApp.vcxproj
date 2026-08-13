@@ -143,12 +143,16 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Person.cpp" />
+    <ClCompile Include="PersonCreator.cpp" />
+    <ClCompile Include="PersonRemover.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Person.h" />
+    <ClInclude Include="PersonCreator.h" />
+    <ClInclude Include="PersonRemover.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

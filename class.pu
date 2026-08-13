@@ -2,8 +2,8 @@
 
 class main {
     // main関数
-    - vector<Person> people_
-    - vector<Event> events_
+    - vector<Person> people
+    - vector<Event> events
     + int main()
 }
 
@@ -12,7 +12,7 @@ class InputHandler {
     - {static} static InputHandler* instance_
     - InputHandler()
     + {static} static InputHandler* getInstance()
-    + int receiveNumber()
+    + int receiveNumber(int max, int min)
     + string receiveString()
 }
 
@@ -75,7 +75,7 @@ class EventRemover {
 
 class PersonCreator {
     - vector<Person>* people_
-    + PersonRegister(vector<Person>* people)
+    + PersonCreator(vector<Person>* people)
     + void run()  // 処理を委任
 }
 

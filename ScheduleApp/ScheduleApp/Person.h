@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
 #include <vector>
@@ -16,7 +16,7 @@ private:
 	std::string name_;
 	std::vector<Event> events_;
 public:
-	Person(std::string);
+	Person(std::string name);
 	int removeMeFromEvents();
 };
 

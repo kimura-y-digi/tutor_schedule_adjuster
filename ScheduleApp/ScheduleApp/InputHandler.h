@@ -17,7 +17,7 @@ private:
 
 public:
 	static InputHandler* getInstance();
-	int receiveNumber();
+	int receiveNumber(int max, int min = 0);
 	std::string receiveString();
 };
 
