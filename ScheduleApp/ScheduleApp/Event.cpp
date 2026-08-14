@@ -1,4 +1,4 @@
-#include "Event.h"
+﻿#include "Event.h"
 
 #include <chrono>
 
@@ -14,6 +14,11 @@ Event::Event() {
 	end_datetime_ = std::chrono::sys_seconds::min();
 }
 
+int Event::removeThisFromParticipants() {
+	int num_remove = 0;
+	return num_remove;
+}
+
 bool Event::hasEmpty() {
 	if ( id_ < 0
 			|| name_.empty()
@@ -26,9 +31,4 @@ bool Event::hasEmpty() {
 	else {
 		return false;
 	}
-}
-
-int Event::removeThisFromParticipants() {
-	int num_remove = 0;
-	return num_remove;
 }

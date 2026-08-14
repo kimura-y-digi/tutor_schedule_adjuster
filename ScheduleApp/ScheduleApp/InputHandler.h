@@ -5,9 +5,13 @@
 
 class InputHandler
 {
+public:
+	static InputHandler* getInstance();
+
+	int receiveNumber(int max, int min = 0);
+	std::string receiveString();
+
 private:
-	static InputHandler* instance;
-	
 	InputHandler() = default;
 
 	InputHandler(InputHandler&) = delete;
@@ -15,9 +19,6 @@ private:
 	InputHandler(InputHandler&&) = delete;
 	InputHandler&& operator=(InputHandler&&) = delete;
 
-public:
-	static InputHandler* getInstance();
-	int receiveNumber(int max, int min = 0);
-	std::string receiveString();
+	static InputHandler* instance;
 };
 

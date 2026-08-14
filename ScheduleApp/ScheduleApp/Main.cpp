@@ -7,6 +7,7 @@
 #include "Person.h"
 #include "PersonCreator.h"
 
+
 int main() {
 	std::vector<Person> people{};
 	std::vector<Event> events{};

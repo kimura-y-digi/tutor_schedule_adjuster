@@ -7,9 +7,11 @@
 
 class PersonCreator
 {
-private:
-	std::vector<Person>* people_;
 public:
 	PersonCreator(std::vector<Person>* people);
+
 	void run();
+
+private:
+	std::vector<Person>* people_;
 };
