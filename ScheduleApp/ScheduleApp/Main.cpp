@@ -6,16 +6,18 @@
 #include "InputHandler.h"
 #include "Person.h"
 #include "PersonCreator.h"
+#include "PersonRemover.h"
 
 
 int main() {
 	std::vector<Person> people{};
 	std::vector<Event> events{};
 
-	InputHandler* inputHandler = InputHandler::getInstance();
+	InputHandler* input_handler = InputHandler::getInstance();
 	PersonCreator person_creator(&people);
+	PersonRemover person_remover(&people);
 
-	int inputNum = -1;
+	int input_num = -1;
 	while (true) {
 		std::cout << "  日程調整ソフトウェア  " << std::endl
 			<< "[ ] に書かれた数字を入力して、機能を選択してください" 
@@ -24,28 +26,29 @@ int main() {
 			<< "[3]:予定の登録 [4]:予定の削除" << std::endl
 			<< "[5]:ファイルへ保存 [6]:ファイルの読込" << std::endl
 			<< "[0]:終了" << std::endl << std::endl;
-		inputNum = inputHandler->receiveNumber(6);
+		input_num = input_handler->receiveNumber(6);
 
-		if (inputNum == 0) {
+		if (input_num == 0) {
 			break;
 		}
-		else if (inputNum == 1) {
+		else if (input_num == 1) {
 			person_creator.run();
 			continue;
 		}
-		else if (inputNum == 2) {
+		else if (input_num == 2) {
+			person_remover.run();
 			continue;
 		}
-		else if (inputNum == 3) {
+		else if (input_num == 3) {
 			continue;
 		}
-		else if (inputNum == 4) {
+		else if (input_num == 4) {
 			continue;
 		}
-		else if (inputNum == 5) {
+		else if (input_num == 5) {
 			continue;
 		}
-		else if (inputNum == 6) {
+		else if (input_num == 6) {
 			continue;
 		}
 		else {

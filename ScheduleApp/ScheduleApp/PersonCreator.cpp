@@ -12,26 +12,26 @@ PersonCreator::PersonCreator(std::vector<Person>* people)
 	: people_(people) {}
 
 void PersonCreator::run() {
-	InputHandler* inputHandler = InputHandler::getInstance();
+	InputHandler* input_handler = InputHandler::getInstance();
 	
 	std::string name;
 	std::cout << "登録する名前を入力してください" << std::endl << std::endl;
-	name = inputHandler->receiveString();
+	name = input_handler->receiveString();
 
-	int inputNum = -1;
-	while (inputNum == -1) {
+	int input_num = -1;
+	while (input_num == -1) {
 		std::cout << name << " さんを登録して良いですか？" << std::endl << std::endl
-			<< "[1]:登録    [0]:登録をキャンセル" << std::endl << std::endl;
+			<< "[1]:登録    [0]:登録をやめる" << std::endl << std::endl;
 
-		inputNum = inputHandler->receiveNumber(1);
+		input_num = input_handler->receiveNumber(1);
 	}
 
-	if (inputNum == 1) {
+	if (input_num == 1) {
 		people_->push_back(Person(name));
 		std::cout << name << " さんを追加しました" << std::endl;
 	}
-	else if (inputNum == 0) {
-		std::cout << "キャンセルしました" << std::endl;
+	else if (input_num == 0) {
+		std::cout << "登録をやめました" << std::endl;
 	}
 	else {
 		std::cerr << "意図しない入力です" << std::endl;

@@ -25,4 +25,3 @@ private:
 	std::chrono::sys_seconds start_datetime_;
 	std::chrono::sys_seconds end_datetime_;
 };
-

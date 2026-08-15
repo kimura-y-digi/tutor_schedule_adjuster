@@ -14,6 +14,8 @@ public:
 	Person(std::string name);
 	int removeMeFromEvents();
 
+	std::string getName();
+
 private:
 	static int max_id;
 	int id_;
@@ -21,4 +23,3 @@ private:
 	std::vector<Event> events_;
 
 };
-

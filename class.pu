@@ -85,7 +85,7 @@ class PersonRemover {
     - vector<Person>* people_
     + PersonRemover(vector<Person>* people)
     - void showPeople()  // current_page_ を使って kMaxPerPage 件ごとに表示
-    - void dispPersonDetail(int id)  // 状態的には削除確認
+    - int dispPersonDetail(int id)  // 状態的には削除確認
     - bool removePerson(int id)  // 関連Eventの削除も必要
     + void run()  // 処理を委任
 }

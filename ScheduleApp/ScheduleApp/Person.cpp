@@ -1,4 +1,4 @@
-#include "Person.h"
+﻿#include "Person.h"
 
 #include <string>
 
@@ -14,4 +14,8 @@ Person::Person(std::string name) : name_(name) {
 int Person::removeMeFromEvents() {
 	int num_remove = 0;
 	return num_remove;
+}
+
+std::string Person::getName() {
+	return name_;
 }
