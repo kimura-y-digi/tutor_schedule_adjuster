@@ -1,6 +1,9 @@
 ﻿#include "Event.h"
 
 #include <chrono>
+#include <string>
+
+#include "Person.h"
 
 
 int Event::max_id = 0;
@@ -31,4 +34,28 @@ bool Event::hasEmpty() {
 	else {
 		return false;
 	}
+}
+
+int Event::getId() {
+	return id_;
+}
+
+std::string Event::getName() {
+	return name_;
+}
+
+std::string Event::getParticipantsString() {
+	std::string ret;
+	for (auto it : participants_) {
+		ret += it.getId();
+		if (it.getId() != participants_.end()->getId()) {
+			ret += " ";
+		}
+	}
+
+	return ret;
+}
+
+std::string Event::getStartDateTimeString() {
+	
 }

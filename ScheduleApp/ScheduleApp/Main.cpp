@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 
+#include "CsvFileAccessor.h"
 #include "Event.h"
 #include "InputHandler.h"
 #include "Person.h"
@@ -16,6 +17,7 @@ int main() {
 	InputHandler* input_handler = InputHandler::getInstance();
 	PersonCreator person_creator(&people);
 	PersonRemover person_remover(&people);
+	CsvFileAccessor csv_file_accessor(&people, &events);
 
 	int input_num = -1;
 	while (true) {
@@ -46,9 +48,11 @@ int main() {
 			continue;
 		}
 		else if (input_num == 5) {
+			csv_file_accessor.writeFiles();
 			continue;
 		}
 		else if (input_num == 6) {
+			csv_file_accessor.readFiles();
 			continue;
 		}
 		else {

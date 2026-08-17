@@ -139,6 +139,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CsvFileAccessor.cpp" />
     <ClCompile Include="Event.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="PersonRemover.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CsvFileAccessor.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
     <ClInclude Include="InputHandler.h" />

@@ -16,6 +16,11 @@ public:
 	int removeThisFromParticipants();
 
 	bool hasEmpty();
+	int getId();
+	std::string getName();
+	std::string getParticipantsString();
+	std::string getStartDateTimeString();
+	std::string getEndDateTimeString();
 
 private:
 	static int max_id;

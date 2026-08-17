@@ -1,6 +1,9 @@
 ﻿#include "Person.h"
 
 #include <string>
+#include <vector>
+
+#include "Event.h"
 
 
 int Person::max_id = 0;
@@ -16,6 +19,22 @@ int Person::removeMeFromEvents() {
 	return num_remove;
 }
 
+int Person::getId() {
+	return id_;
+}
+
 std::string Person::getName() {
 	return name_;
+}
+
+std::string Person::getEventsString() {
+	std::string ret;
+	for (auto it : events_) {
+		ret += it.getId();
+		if (it.getId() != events_.end()->getId()) {
+			ret += " ";
+		}
+	}
+
+	return ret;
 }

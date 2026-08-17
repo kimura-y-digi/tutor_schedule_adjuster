@@ -96,8 +96,12 @@ class CsvFileAccessor {
     - vector<Person>* people_
     - vector<Event>* events_
     + CsvFileAccessor(vector<Person>* people, vector<Event>* events)
-    + bool writeCsvFile()  // 処理を委任
-    + bool readCsvFile()  // 処理を委任, max_id_ の変更も必要
+    + bool writeFiles()  // 処理を委任
+    + bool readFiles()  // 処理を委任, max_id_ の変更も必要
+    - bool writePeople()
+    - bool writeEvents()
+    - bool readPeople()
+    - bool readEvents()
 }
 
 main *-- EventCreator
