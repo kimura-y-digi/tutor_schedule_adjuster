@@ -25,6 +25,7 @@ private:
 
 	std::string kPersonFilePath;
 	std::string kEventFilePath;
+	const char kDelim;
 	std::vector<Person>* people_;
 	std::vector<Event>* events_;
 };

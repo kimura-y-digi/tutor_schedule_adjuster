@@ -15,7 +15,9 @@ public:
 	int removeMeFromEvents();
 
 	int getId();
+	void setId(int id);
 	std::string getName();
+	void setName(std::string name);
 	std::string getEventsString();
 
 private:

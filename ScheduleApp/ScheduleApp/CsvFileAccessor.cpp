@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <string>
 #include <vector>
 
 #include "Event.h"
@@ -13,7 +14,7 @@ CsvFileAccessor::CsvFileAccessor(
 	std::vector<Person>* people,
 	std::vector<Event>* events)
 	: kPersonFilePath("persons.csv"), kEventFilePath("events.csv"),
-		people_(people), events_(events) {}
+		kDelim(','), people_(people), events_(events) {}
 
 bool CsvFileAccessor::writeFiles() {
 	InputHandler* input_handler = InputHandler::getInstance();
@@ -74,6 +75,7 @@ bool CsvFileAccessor::writePerson() {
 				<< std::endl;
 		}
 
+		file.close();
 		is_success = true;
 	}
 	catch (...) {
@@ -98,10 +100,44 @@ bool CsvFileAccessor::writeEvents() {
 				<< std::endl;
 		}
 
+		file.close();
 		is_success = true;
 	}
 	catch (...) {
 		std::cerr << "人の情報の保存に失敗しました" << std::endl << std::endl;
+	}
+
+	return is_success;
+}
+
+bool CsvFileAccessor::readPerson() {
+	bool is_success = false;
+
+	try {
+		people_->clear();
+
+		std::ifstream file(kPersonFilePath);
+		std::string line;
+		std::string csv_item;
+		int maxId = 0;
+		std::getline(file, line);  // skip header
+		while (std::getline(file, line)) {
+			Person person("");
+			std::istringstream iss(line);
+
+			std::getline(iss, csv_item, kDelim);
+			int id = std::stoi(csv_item);
+			person.setId(id);
+			if (id > maxId) {
+				maxId = id;
+			}
+		}
+
+		file.close();
+		is_success = true;
+	}
+	catch (...) {
+		std::cerr << "人の情報の読込に失敗しました" << std::endl << std::endl;
 	}
 
 	return is_success;

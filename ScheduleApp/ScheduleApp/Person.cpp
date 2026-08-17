@@ -23,8 +23,16 @@ int Person::getId() {
 	return id_;
 }
 
+void Person::setId(int id) {
+	id_ = id;
+}
+
 std::string Person::getName() {
 	return name_;
+}
+
+void Person::setName(std::string name) {
+	name_ = name;
 }
 
 std::string Person::getEventsString() {

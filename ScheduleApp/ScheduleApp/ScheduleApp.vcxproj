@@ -146,6 +146,7 @@
     <ClCompile Include="Person.cpp" />
     <ClCompile Include="PersonCreator.cpp" />
     <ClCompile Include="PersonRemover.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CsvFileAccessor.h" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonCreator.h" />
     <ClInclude Include="PersonRemover.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

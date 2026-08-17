@@ -4,6 +4,7 @@
 #include <string>
 
 #include "Person.h"
+#include "Util.h"
 
 
 int Event::max_id = 0;
@@ -57,5 +58,9 @@ std::string Event::getParticipantsString() {
 }
 
 std::string Event::getStartDateTimeString() {
-	
+	return Util::sysSecondsToStr(start_datetime_);
+}
+
+std::string Event::getEndDateTimeString() {
+	return Util::sysSecondsToStr(end_datetime_);
 }
