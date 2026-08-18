@@ -17,6 +17,7 @@ public:
 	std::string getName();
 	void setName(std::string name);
 	std::string getParticipantsString();
+	void setParticipantFromString(std::string participants);
 	void addParticipant(int person_id);
 	void removeParticipant(int person_id);
 	std::string getStartDateTimeString();

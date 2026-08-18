@@ -1,6 +1,7 @@
 ﻿#include "Event.h"
 
 #include <chrono>
+#include <iostream>
 #include <string>
 
 #include "Person.h"
@@ -63,6 +64,21 @@ std::string Event::getParticipantsString() {
 	}
 
 	return ret;
+}
+
+void Event::setParticipantFromString(std::string participants) {
+	participants_.clear();
+	try {
+		std::istringstream iss(participants);
+		std::string space_item;
+		while (std::getline(iss, space_item, ' ')) {
+			int person_id = std::stoi(space_item);
+			participants_.push_back(person_id);
+		}
+	}
+	catch (...) {
+		std::cerr << "ERROR : Event::setParticipantFromString()" << std::endl;
+	}
 }
 
 void Event::addParticipant(int person_id) {

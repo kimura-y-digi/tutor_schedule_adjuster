@@ -1,5 +1,6 @@
 ﻿#include "Person.h"
 
+#include <iostream>
 #include <string>
 #include <vector>
 
@@ -45,6 +46,21 @@ std::string Person::getEventsString() {
 	}
 
 	return ret;
+}
+
+void Person::setEventsFromString(std::string events) {
+	events_.clear();
+	try {
+		std::istringstream iss(events);
+		std::string space_item;
+		while (std::getline(iss, space_item, ' ')) {
+			int event_id = std::stoi(space_item);
+			events.push_back(event_id);
+		}
+	}
+	catch (...) {
+		std::cerr << "ERROR : Person::setEventsFromString()" << std::endl;
+	}
 }
 
 void Person::addEvent(int event_id) {

@@ -136,12 +136,7 @@ bool CsvFileAccessor::readPerson() {
 			person.setName(csv_item);
 
 			std::getline(line_iss, csv_item, kDelim);
-			std::istringstream events_iss(csv_item);
-			std::string space_item;
-			while(std::getline(events_iss, space_item, ' ')) {
-				int event_id = std::stoi(space_item);
-				person.addEvent(event_id);
-			}
+			person.setEventsFromString(csv_item);
 
 			people_->push_back(person);
 		}
@@ -183,12 +178,7 @@ bool CsvFileAccessor::readEvents() {
 			event.setName(csv_item);
 
 			std::getline(line_iss, csv_item, kDelim);
-			std::istringstream participants(csv_item);
-			std::string space_item;
-			while (std::getline(participants, space_item, ' ')) {
-				int person_id = std::stoi(space_item);
-				event.addParticipant(person_id);
-			}
+			event.setParticipantFromString(csv_item);
 
 			std::getline(line_iss, csv_item, kDelim);
 			event.setStartDateTime(csv_item);
