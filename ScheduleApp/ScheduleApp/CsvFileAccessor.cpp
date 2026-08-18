@@ -142,6 +142,8 @@ bool CsvFileAccessor::readPerson() {
 				int event_id = std::stoi(space_item);
 				person.addEvent(event_id);
 			}
+
+			people_->push_back(person);
 		}
 
 		file.close();
@@ -191,6 +193,8 @@ bool CsvFileAccessor::readEvents() {
 			std::getline(line_iss, csv_item, kDelim);
 			event.setStartDateTime(csv_item);
 			event.setEndDateTime(csv_item);
+
+			events_->push_back(event);
 		}
 
 		file.close();
