@@ -9,6 +9,7 @@ public:
 	static InputHandler* getInstance();
 
 	int receiveNumber(int max, int min = 0);
+	int receiveNumberAllowNine(int max, int min = 0);
 	std::string receiveString();
 
 private:

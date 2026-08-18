@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="CsvFileAccessor.cpp" />
     <ClCompile Include="Event.cpp" />
+    <ClCompile Include="EventCreator.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Person.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="CsvFileAccessor.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventCondition.h" />
+    <ClInclude Include="EventCreator.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Person.h" />
     <ClInclude Include="PersonCreator.h" />

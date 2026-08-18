@@ -4,6 +4,7 @@
 
 #include "CsvFileAccessor.h"
 #include "Event.h"
+#include "EventCreator.h"
 #include "InputHandler.h"
 #include "Person.h"
 #include "PersonCreator.h"
@@ -17,6 +18,7 @@ int main() {
 	InputHandler* input_handler = InputHandler::getInstance();
 	PersonCreator person_creator(&people);
 	PersonRemover person_remover(&people, &events);
+	EventCreator event_creator(&people, &events);
 	CsvFileAccessor csv_file_accessor(&people, &events);
 
 	int input_num = -1;
@@ -42,6 +44,7 @@ int main() {
 			continue;
 		}
 		else if (input_num == 3) {
+			event_creator.run();
 			continue;
 		}
 		else if (input_num == 4) {

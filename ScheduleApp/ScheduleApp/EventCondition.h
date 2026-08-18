@@ -1,12 +1,12 @@
-#pragma once
+﻿#pragma once
 
 #include <string>
 #include <vector>
 
 
-struct {
-	int use_minutes;
-	std::vector<int> participants;
+struct EventCondition {
+	int use_minutes = 0;
+	std::vector<int> participants = {};
 	std::string start_date;
 	std::string end_date;
 	std::string start_time;

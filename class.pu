@@ -62,9 +62,9 @@ class EventCreator {
     - vector<int> pickParticipants()  // 複数人の選択, createEvent() か createEventCondition() から呼ぶ
     - Event createEvent(Event proposed) // 状態的に、{予定の新規登録, 予定の情報入力, 出席者選択}
     - bool addEvent(const Event& event)  // events_ に追加
-    - const vector<Event>& collectEvents(vector<int> targetPeople)  // 人に関連する予定の集計
+    - const vector<Event>& collectEvents(vector<int> target_people)  // 人に関連する予定の集計
     - EventCondition createEventCondition()  // 状態的に、{予定の提案, 予定の検索条件, 招待者選択}
-    - bool proposeEvent(EventCondition cd, const vector<Event>& events, Event& outEvent)  // 予定の提案実施, 見つかった場合は outEvent に格納する
+    - bool proposeEvent(EventCondition cd, const vector<Event>& events, Event& out_event)  // 予定の提案実施, 見つかった場合は outEvent に格納する
     + void run()  // 処理を委任
 }
 
