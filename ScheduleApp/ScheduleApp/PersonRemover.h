@@ -2,13 +2,14 @@
 
 #include <vector>
 
+#include "Event.h"
 #include "Person.h"
 
 
 class PersonRemover
 {
 public:
-	PersonRemover(std::vector<Person>* people);
+	PersonRemover(std::vector<Person>* people, std::vector<Event>* events);
 
 	void run();
 
@@ -21,4 +22,5 @@ private:
 	const int kMaxPerPage = 7;
 	const int kInvalidId = -1;
 	std::vector<Person>* people_;
+	std::vector<Event>* events_;
 };

@@ -2,16 +2,20 @@
 
 #include <stdlib.h>
 
-#include <iostream>
+#include <algorithm>
 #include <cmath>
+#include <iostream>
+#include <iterator>
+#include <map>
 #include <vector>
 
+#include "Event.h"
 #include "InputHandler.h"
 #include "Person.h"
 
 
-PersonRemover::PersonRemover(std::vector<Person>* people) 
-	: people_(people) , current_page_(1) {}
+PersonRemover::PersonRemover(std::vector<Person>* people, std::vector<Event>* events) 
+	: people_(people), events_(events), current_page_(1) {}
 
 void PersonRemover::run() {
 	while (true) {
@@ -47,6 +51,7 @@ int PersonRemover::showPeople() {
 			std::cout << "削除したい人の番号 [ ] を選択してください"
 				<< std::endl << std::endl;
 
+			std::map<int, int> inputToId = {};
 			int initial_index = (current_page_ - 1) * kMaxPerPage;
 			int select_num = 3;
 			for (int i = initial_index;
@@ -54,6 +59,7 @@ int PersonRemover::showPeople() {
 					++i) {
 				std::cout << "[" << select_num << "] : "
 					<< people_->at(i).getName() << std::endl;
+				inputToId.insert(std::make_pair(select_num, people_->at(i).getId()));
 				++select_num;
 			}
 
@@ -64,7 +70,12 @@ int PersonRemover::showPeople() {
 			std::cout << "[1]:前のページ [2]次のページ" << std::endl
 				<< "[0]:削除をやめる" << std::endl << std::endl;
 
-			int user_input = input_handler->receiveNumber(9);
+			int max_select = people_->size() % kMaxPerPage;
+			if (max_select == 0) {
+				max_select = kMaxPerPage;
+			}
+			max_select += 2;
+			int user_input = input_handler->receiveNumber(max_select);
 
 			if (user_input == 0) {
 				return kInvalidId;
@@ -83,8 +94,8 @@ int PersonRemover::showPeople() {
 				}
 				continue;
 			}
-			else if (3 <= user_input && user_input <= 9) {
-				int selected_id = 0;
+			else if (3 <= user_input && user_input <= max_select) {
+				int selected_id = inputToId.at(user_input);
 				return selected_id;
 			}
 			else {
@@ -99,15 +110,42 @@ int PersonRemover::showPeople() {
 int PersonRemover::dispPersonDetail(int id) {
 	InputHandler* input_handler = InputHandler::getInstance();
 	
-	// 情報表示
+	Person person("");
+	for (auto it = people_->begin(); it != people_->end(); ++it) {
+		if (id == it->getId()) {
+			person.setName(it->getName());  // deep copy
+			break;
+		}
+	}
 
-	// 選択肢表示
+	std::cout << "こちらの人を削除します" << std::endl;
+	std::cout << "名前 : " << person.getName()
+		<< std::endl << std::endl;
 
+	std::cout << "[1]:削除する [0]:削除をやめる" << std::endl << std::endl;
 	int user_input = input_handler->receiveNumber(1);
 
 	return user_input;
 }
 
 bool PersonRemover::removePerson(int id) {
-	return false;
+	bool success = false;
+	for (auto it = people_->begin(); it != people_->end(); ++it) {
+		if (id == it->getId()) {
+			std::vector<Event> related_events = {};
+			std::copy_if(
+				events_->begin(),
+				events_->end(),
+				std::back_inserter(related_events),
+				[id](Event event) { return event.hasPerson(id); }
+			);
+
+			it->removeMeFromEvents(&related_events);
+			people_->erase(it);
+			success = true;
+			break;
+		}
+	}
+
+	return success;
 }

@@ -3,12 +3,14 @@
 #include <string>
 #include <vector>
 
+#include "Event.h"
+
 
 class Person
 {
 public:
 	Person(std::string name);
-	int removeMeFromEvents();
+	int removeMeFromEvents(std::vector<Event>* related_events);
 
 	int getId();
 	void setId(int id);

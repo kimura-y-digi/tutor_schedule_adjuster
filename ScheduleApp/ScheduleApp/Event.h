@@ -26,6 +26,8 @@ public:
 	void setEndDateTime(std::string end_datetime);
 	static void updateMaxId(int max_id);
 
+	bool hasPerson(int person_id);
+
 private:
 	static int max_id;
 	int id_;

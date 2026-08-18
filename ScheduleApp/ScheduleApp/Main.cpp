@@ -16,7 +16,7 @@ int main() {
 
 	InputHandler* input_handler = InputHandler::getInstance();
 	PersonCreator person_creator(&people);
-	PersonRemover person_remover(&people);
+	PersonRemover person_remover(&people, &events);
 	CsvFileAccessor csv_file_accessor(&people, &events);
 
 	int input_num = -1;

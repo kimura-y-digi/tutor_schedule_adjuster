@@ -112,3 +112,15 @@ void Event::setEndDateTime(std::string end_datetime) {
 void Event::updateMaxId(int max_id) {
 	max_id = max_id;
 }
+
+bool Event::hasPerson(int person_id) {
+	bool is_found = false;
+	for (auto e : participants_) {
+		if (person_id == e) {
+			is_found = true;
+			break;
+		}
+	}
+
+	return is_found;
+}

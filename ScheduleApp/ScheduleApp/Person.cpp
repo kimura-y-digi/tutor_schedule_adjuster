@@ -15,8 +15,13 @@ Person::Person(std::string name) : name_(name) {
 	events_.clear();
 }
 
-int Person::removeMeFromEvents() {
+int Person::removeMeFromEvents(std::vector<Event>* related_events) {
 	int num_remove = 0;
+	for (auto it = related_events->begin(); it != related_events->end(); ++it) {
+		it->removeParticipant(id_);
+		++num_remove;
+	}
+
 	return num_remove;
 }
 
