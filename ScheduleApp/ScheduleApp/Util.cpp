@@ -1,6 +1,7 @@
 ﻿#include "Util.h"
 
 #include <chrono>
+#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -13,7 +14,7 @@ std::string Util::sysSecondsToStr(std::chrono::sys_seconds seconds) {
 		ret = std::format("{}", kDateTimeFormat.c_str(), seconds);
 	}
 	catch (...) {
-		; // do nothing
+		std::cerr << "FAILED : Util::sysSecondsToStr()" << std::endl;
 	}
 
 	return ret;
@@ -24,6 +25,9 @@ std::chrono::sys_seconds Util::strToSysSeconds(std::string str) {
 	std::stringstream ss(str);
 
 	std::chrono::from_stream(ss, kDateTimeFormat.c_str(), tp);
-	// if parse failed : return min();
+	if (tp == std::chrono::sys_seconds::min()) {
+		std::cerr << "FAILED : Util::strToSysSeconds()" << std::endl;
+	}
+
 	return tp;
 }
