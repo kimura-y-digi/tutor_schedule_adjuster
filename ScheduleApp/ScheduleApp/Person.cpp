@@ -37,12 +37,28 @@ void Person::setName(std::string name) {
 
 std::string Person::getEventsString() {
 	std::string ret;
-	for (auto it : events_) {
-		ret += it.getId();
-		if (it.getId() != events_.end()->getId()) {
+	for (auto it = events_.begin(); it != events_.end(); ++it) {
+		ret += *it;
+		if (it != (events_.end() - 1)) {
 			ret += " ";
 		}
 	}
 
 	return ret;
+}
+
+void Person::addEvent(int event_id) {
+	events_.push_back(event_id);
+}
+
+void Person::removeEvent(int event_id) {
+	for (auto it = events_.begin(); it != events_.end(); ++it) {
+		if (event_id == *it) {
+			events_.erase(it);
+		}
+	}
+}
+
+void Person::updateMaxId(int max_id) {
+	max_id = max_id;
 }

@@ -41,15 +41,23 @@ int Event::getId() {
 	return id_;
 }
 
+void Event::setId(int id) {
+	id_ = id;
+}
+
 std::string Event::getName() {
 	return name_;
 }
 
+void Event::setName(std::string name) {
+	name_ = name;
+}
+
 std::string Event::getParticipantsString() {
 	std::string ret;
-	for (auto it : participants_) {
-		ret += it.getId();
-		if (it.getId() != participants_.end()->getId()) {
+	for (auto it = participants_.begin(); it != participants_.end(); ++it) {
+		ret += *it;
+		if (it != (participants_.end() - 1)) {
 			ret += " ";
 		}
 	}
@@ -57,10 +65,34 @@ std::string Event::getParticipantsString() {
 	return ret;
 }
 
+void Event::addParticipant(int person_id) {
+	participants_.push_back(person_id);
+}
+
+void Event::removeParticipant(int person_id) {
+	for (auto it = participants_.begin(); it != participants_.end(); ++it) {
+		if (person_id == *it) {
+			participants_.erase(it);
+		}
+	}
+}
+
 std::string Event::getStartDateTimeString() {
 	return Util::sysSecondsToStr(start_datetime_);
 }
 
+void Event::setStartDateTime(std::string start_datetime) {
+	start_datetime_ = Util::strToSysSeconds(start_datetime);
+}
+
 std::string Event::getEndDateTimeString() {
 	return Util::sysSecondsToStr(end_datetime_);
+}
+
+void Event::setEndDateTime(std::string end_datetime) {
+	end_datetime_ = Util::strToSysSeconds(end_datetime);
+}
+
+void Event::updateMaxId(int max_id) {
+	max_id = max_id;
 }

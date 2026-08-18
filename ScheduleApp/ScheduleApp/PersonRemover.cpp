@@ -57,7 +57,8 @@ int PersonRemover::showPeople() {
 				++select_num;
 			}
 
-			int max_page = std::ceil(people_->size() / static_cast<double>(kMaxPerPage));
+			int max_page = std::ceil(static_cast<double>(people_->size())
+				/ static_cast<double>(kMaxPerPage));
 			std::cout << "表示ページ " << current_page_ << "/" << max_page << std::endl;
 			std::cout << "[1]:前のページ [2]次のページ" << std::endl
 				<< "[0]:削除をやめる" << std::endl << std::endl;

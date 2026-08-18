@@ -1,4 +1,4 @@
-#include "Util.h"
+﻿#include "Util.h"
 
 #include <chrono>
 #include <sstream>
@@ -10,7 +10,7 @@ const std::string Util::kDateTimeFormat = "%Y-%s-%d %H:%M:%S";
 std::string Util::sysSecondsToStr(std::chrono::sys_seconds seconds) {
 	std::string ret;
 	try {
-		ret = std::format(kDateTimeFormat.c_str(), seconds);
+		ret = std::format("{}", kDateTimeFormat.c_str(), seconds);
 	}
 	catch (...) {
 		; // do nothing

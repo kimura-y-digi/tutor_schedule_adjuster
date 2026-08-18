@@ -119,25 +119,86 @@ bool CsvFileAccessor::readPerson() {
 		std::ifstream file(kPersonFilePath);
 		std::string line;
 		std::string csv_item;
-		int maxId = 0;
+		int max_id = 0;
 		std::getline(file, line);  // skip header
 		while (std::getline(file, line)) {
 			Person person("");
-			std::istringstream iss(line);
+			std::istringstream line_iss(line);
 
-			std::getline(iss, csv_item, kDelim);
-			int id = std::stoi(csv_item);
-			person.setId(id);
-			if (id > maxId) {
-				maxId = id;
+			std::getline(line_iss, csv_item, kDelim);
+			int person_id = std::stoi(csv_item);
+			person.setId(person_id);
+			if (person_id > max_id) {
+				max_id = person_id;
+			}
+
+			std::getline(line_iss, csv_item, kDelim);
+			person.setName(csv_item);
+
+			std::getline(line_iss, csv_item, kDelim);
+			std::istringstream events_iss(csv_item);
+			std::string space_item;
+			while(std::getline(events_iss, space_item, ' ')) {
+				int event_id = std::stoi(space_item);
+				person.addEvent(event_id);
 			}
 		}
 
 		file.close();
+		Person::updateMaxId(max_id);
 		is_success = true;
 	}
 	catch (...) {
 		std::cerr << "人の情報の読込に失敗しました" << std::endl << std::endl;
+	}
+
+	return is_success;
+}
+
+bool CsvFileAccessor::readEvents() {
+	bool is_success = false;
+
+	try {
+		events_->clear();
+
+		std::ifstream file(kEventFilePath);
+		std::string line;
+		std::string csv_item;
+		int max_id = 0;
+		std::getline(file, line);  // skip header
+		while (std::getline(file, line)) {
+			Event event;
+			std::istringstream line_iss(line);
+
+			std::getline(line_iss, csv_item, kDelim);
+			int event_id = std::stoi(csv_item);
+			event.setId(event_id);
+			if (event_id > max_id) {
+				max_id = event_id;
+			}
+
+			std::getline(line_iss, csv_item, kDelim);
+			event.setName(csv_item);
+
+			std::getline(line_iss, csv_item, kDelim);
+			std::istringstream participants(csv_item);
+			std::string space_item;
+			while (std::getline(participants, space_item, ' ')) {
+				int person_id = std::stoi(space_item);
+				event.addParticipant(person_id);
+			}
+
+			std::getline(line_iss, csv_item, kDelim);
+			event.setStartDateTime(csv_item);
+			event.setEndDateTime(csv_item);
+		}
+
+		file.close();
+		Event::updateMaxId(max_id);
+		is_success = true;
+	}
+	catch (...) {
+		std::cerr << "予定の情報の読込に失敗しました" << std::endl << std::endl;
 	}
 
 	return is_success;

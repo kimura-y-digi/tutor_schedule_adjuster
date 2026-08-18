@@ -3,10 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "Event.h"
-
-
-class Event;
 
 class Person
 {
@@ -19,10 +15,13 @@ public:
 	std::string getName();
 	void setName(std::string name);
 	std::string getEventsString();
+	void addEvent(int event_id);
+	void removeEvent(int event_id);
+	static void updateMaxId(int max_id);
 
 private:
 	static int max_id;
 	int id_;
 	std::string name_;
-	std::vector<Event> events_;
+	std::vector<int> events_;
 };
