@@ -12,11 +12,11 @@ public:
 	Person(std::string name);
 	int removeMeFromEvents(std::vector<Event>* related_events);
 
-	int getId();
+	int getId() const;
 	void setId(int id);
-	std::string getName();
+	std::string getName() const;
 	void setName(std::string name);
-	std::string getEventsString();
+	std::string getEventsString() const;
 	void setEventsFromString(std::string events);
 	void addEvent(int event_id);
 	void removeEvent(int event_id);

@@ -14,6 +14,19 @@ InputHandler* InputHandler::getInstance() {
 	return instance;
 }
 
+/*
+ * receiveNumber関数
+ * 
+ * 引数 : min ～ max の範囲で入力を受け付ける
+ * 戻り値 : エラーが発生した際は -1 を返す
+ * 
+ * 補足 : 入力受付をした後に画面のクリアを実行する
+ *        エラーメッセージは残したいため、画面クリア後に表示する
+ *        そのため、元々の選択肢表示を改めて表示する必要がある
+ *        使われ方として、return -1 があった際は再度呼び出しされることを想定
+ * 
+ * メモ : 表示したい文字列を引数で貰えば、欲しい入力が取れるまでループができる
+ */
 int InputHandler::receiveNumber(int max, int min) {
 	std::string input;
 	int value = -1;

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 
 const std::string Util::kDateTimeFormat = "%Y-%s-%d %H:%M:%S";
@@ -30,4 +31,16 @@ std::chrono::sys_seconds Util::strToSysSeconds(std::string str) {
 	}
 
 	return tp;
+}
+
+std::string Util::vectorIntToStr(const std::vector<int> array) {
+	std::string ret;
+	for (int i = 0; i < array.size(); ++i) {
+		ret += array.at(i);
+		if (i != (array.size() - 1)) {
+			ret += " ";
+		}
+	}
+
+	return ret;
 }

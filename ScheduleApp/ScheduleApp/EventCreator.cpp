@@ -6,44 +6,95 @@
 #include "Event.h"
 #include "InputHandler.h"
 #include "Person.h"
+#include "Util.h"
 
 
 EventCreator::EventCreator(std::vector<Person>* people, std::vector<Event>* events) 
-	: people_(people), events_(events) {}
+	: people_(people), events_(events), mode_(Mode::kChoiceMethod) {}
 
 void EventCreator::run() {
-	int outer_input = -1;
-	
-	while (true) {
-		outer_input = choiceMethod();
+	mode_ = Mode::kChoiceMethod;
+	EventCondition condition;
+	Event event;
 
-		if (outer_input == 0) {
+	int user_input = -1;
+	bool go_next = false;
+	while (true) {
+		if (mode_ == Mode::kTerminate) {
 			break;
 		}
-		else if (outer_input == 1) {
-			int inner_input = editEvent();
 
-			if (inner_input == 9) {
-
+		switch (mode_) {
+		case Mode::kChoiceMethod:
+			user_input = choiceMethod();
+			if (user_input == 0) {
+				mode_ = Mode::kTerminate;
 			}
-			else if (inner_input == 0) {
+			else if (user_input == 1) {
+				mode_ = Mode::kEditEvent;
+			}
+			else if (user_input == 2) {
+				mode_ = Mode::kEditCondition;
+			}
+			break;
 
+		case Mode::kEditEvent:
+			go_next = editEvent(event);
+			if (go_next) {
+				mode_ = Mode::kConfirmEvent;
 			}
 			else {
-				std::cerr << "意図しない入力です" << std::endl
-					<< std::endl;
-				break;
+				mode_ = Mode::kChoiceMethod;
 			}
+			break;
 
+		case Mode::kConfirmEvent:
+			go_next = confirmEvent(event);
+			if (go_next) {
+				bool is_success = addEvent(event);
+				if (is_success) {
+					mode_ = Mode::kTerminate;
+				}
+				else {
+					mode_ = Mode::kEditEvent;
+				}
+			}
+			else {
+				mode_ = Mode::kEditEvent;
+			}
 			break;
-		}
-		else if (outer_input == 2) {
-			Event event = editEventCondition();
-			editEvent(event);
+
+		case Mode::kEditCondition:
+			go_next = editEventCondition(condition);
+			if (go_next) {
+				bool is_find = proposeEvent(condition, event);
+				if (is_find) {
+					mode_ = Mode::kConfirmCondition;
+				}
+				else {
+					mode_ = Mode::kEditCondition;
+				}
+			}
+			else {
+				mode_ = Mode::kChoiceMethod;
+			}
 			break;
-		}
-		else {
-			std::cerr << "意図しない入力です" << std::endl;
+
+		case Mode::kConfirmCondition:
+			go_next = confirmCondition(condition);
+			if (go_next) {
+				mode_ = Mode::kEditEvent;
+			}
+			else {
+				mode_ = Mode::kEditCondition;
+			}
+			break;
+
+		default:
+			std::cerr << "エラーが発生しました" << std::endl
+				<< "予定登録を終了します" << std::endl << std::endl;
+			mode_ = Mode::kTerminate;
+			break;
 		}
 	}
 }
@@ -70,17 +121,18 @@ int EventCreator::choiceMethod() {
 	return user_input;
 }
 
-int EventCreator::editEvent(Event proposed) {
+bool EventCreator::editEvent(Event& event) {
 	InputHandler* input_handler = InputHandler::getInstance();
 
+	bool go_next = false;
 	int user_input = -1;
 	while (true) {
 		std::cout << "登録したい予定の情報を編集してください" << std::endl;
 
-		std::cout << "[1]:名前 " << proposed.getName() << " を編集する" << std::endl
-			<< "[2]:出席者 " << proposed.getParticipantsString() << " を編集する" << std::endl
-			<< "[3]:開始日時 " << proposed.getStartDateTimeString() << " を編集する" << std::endl
-			<< "[4]:終了日時 " << proposed.getEndDateTimeString() << " を編集する" << std::endl
+		std::cout << "[1]:名前 " << event.getName() << " を編集する" << std::endl
+			<< "[2]:出席者 " << event.getParticipantsString() << " を編集する" << std::endl
+			<< "[3]:開始日時 " << event.getStartDateTimeString() << " を編集する" << std::endl
+			<< "[4]:終了日時 " << event.getEndDateTimeString() << " を編集する" << std::endl
 			<< std::endl;
 
 		std::cout << "[9]:この予定を登録する  [0]:登録方法の選択に戻る" << std::endl
@@ -101,19 +153,11 @@ int EventCreator::editEvent(Event proposed) {
 			continue;
 		}
 		else if (user_input == 9) {
-			if (addEvent(proposed)) {
-				std::cout << "予定の登録に成功しました"
-					<< std::endl << std::endl;
-				break;
-			}
-			else {
-				std::cout << "予定の登録に失敗しました"
-					<< std::endl << std::endl;
-				continue;
-			}
+			go_next = true;
+			break;
 		}
 		else if (user_input == 0) {
-			proposed.setId(-1);
+			event.setId(-1);
 			break;
 		}
 		else {
@@ -122,28 +166,150 @@ int EventCreator::editEvent(Event proposed) {
 		}
 	}
 
-	return user_input;
+	return go_next;
+}
+
+bool EventCreator::confirmEvent(const Event& event) {
+	InputHandler* input_handler = InputHandler::getInstance();
+
+	int user_input = -1;
+	while (true) {
+		std::cout << "こちらの予定を登録します" << std::endl << std::endl;
+
+		std::cout << "名前 : " << event.getName() << std::endl
+			<< "出席者 : " << event.getParticipantsString() << std::endl
+			<< "開始日時 : " << event.getStartDateTimeString() << std::endl
+			<< "終了日時 : " << event.getEndDateTimeString() << std::endl
+			<< std::endl;
+
+		std::cout << "[1]:登録する  [0]:予定の編集に戻る"
+			<< std::endl << std::endl;
+
+		user_input = input_handler->receiveNumber(1);
+		if (user_input == 0 || user_input == 1) {
+			break;
+		}
+	}
+
+	if (user_input == 1) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool EventCreator::addEvent(const Event& event) {
+	events_->push_back(event);
+
+	int add_count = 0;
+	for (int participant_id : event.getParticipants()) {
+		for (Person& person : *people_) {
+			if (person.getId() == participant_id) {
+				person.addEvent(event.getId());
+				++add_count;
+				break;
+			}
+		}
+	}
+
+	return add_count == (event.getParticipants()).size();
+}
+
+bool EventCreator::editEventCondition(EventCondition& condition) {
+	InputHandler* input_handler = InputHandler::getInstance();
+
+	bool go_next = false;
+	int user_input = -1;
+	while (true) {
+		std::cout << "予定の提案に必要な情報を編集してください" << std::endl;
+
+		std::cout << "[1]:予定の所要時間 " << condition.use_minutes << " を編集する" << std::endl
+			<< "[2]:出席予定の人 " << Util::vectorIntToStr(condition.participants) 
+				<< " を編集する" << std::endl
+			<< "[3]:検索の開始日 " << condition.start_date << " を編集する" << std::endl
+			<< "[4]:検索の終了日 " << condition.end_date << " を編集する" << std::endl
+			<< "[5]:検索の開始日 " << condition.start_time << " を編集する" << std::endl
+			<< "[6]:検索の終了日 " << condition.end_time << " を編集する" << std::endl
+			<< std::endl;
+
+		std::cout << "[9]:この予定を登録する  [0]:登録方法の選択に戻る" << std::endl
+			<< std::endl;
+
+		user_input = input_handler->receiveNumberAllowNine(6);
+
+		if (user_input == 1) {
+			continue;
+		}
+		else if (user_input == 2) {
+			continue;
+		}
+		else if (user_input == 3) {
+			continue;
+		}
+		else if (user_input == 4) {
+			continue;
+		}
+		else if (user_input == 5) {
+			continue;
+		}
+		else if (user_input == 6) {
+			continue;
+		}
+		else if (user_input == 9) {
+			go_next = true;
+			break;
+		}
+		else if (user_input == 0) {
+			break;
+		}
+		else {
+			std::cerr << "意図しない入力です" << std::endl;
+			continue;
+		}
+	}
+
+	return go_next;
+}
+
+bool EventCreator::proposeEvent(const EventCondition& condition, Event& event) {
+	return true;
+}
+
+bool EventCreator::confirmCondition(const EventCondition& condition) {
+	InputHandler* input_handler = InputHandler::getInstance();
+
+	int user_input = -1;
+	while (true) {
+		std::cout << "こちらの条件で予定を提案します" << std::endl << std::endl;
+
+		std::cout << "予定の所要時間 : " << condition.use_minutes << std::endl
+			<< "出席予定の人 : " << Util::vectorIntToStr(condition.participants) << std::endl
+			<< "検索の開始日 : " << condition.start_date << std::endl
+			<< "検索の終了日 : " << condition.end_date << std::endl
+			<< "検索の開始日 : " << condition.start_time << std::endl
+			<< "検索の終了日 : " << condition.end_time << std::endl
+			<< std::endl;
+
+		std::cout << "[1]:登録する  [0]:予定の編集に戻る"
+			<< std::endl << std::endl;
+
+		user_input = input_handler->receiveNumber(1);
+		if (user_input == 0 || user_input == 1) {
+			break;
+		}
+	}
+
+	if (user_input == 1) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 std::vector<int> EventCreator::pickParticipants() {
 	return {};
-}
-
-bool EventCreator::addEvent(const Event& event) {
-	return false;
-}
-
-Event EventCreator::editEventCondition() {
-	EventCondition cd;
-	Event event;
-	std::vector<Event> events = collectEvents({});
-
-	if (proposeEvent(cd, events, event)) {
-		std::cout << "条件に合った予定が見つかりました" << std::endl
-			<< "予定の登録に進みます" << std::endl
-			<< std::endl;
-	}
-	return event;
 }
 
 std::vector<Event> EventCreator::collectEvents(std::vector<int> target_people) {
@@ -151,11 +317,4 @@ std::vector<Event> EventCreator::collectEvents(std::vector<int> target_people) {
 	Event event;
 	collectEvents.push_back(event);
 	return collectEvents;
-}
-
-bool EventCreator::proposeEvent(
-	EventCondition cd,
-	const std::vector<Event>& events,
-	Event& out_event) {
-	return false;
 }

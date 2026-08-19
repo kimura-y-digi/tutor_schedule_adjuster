@@ -15,20 +15,29 @@ public:
 	void run();
 
 private:
+	enum class Mode {
+		kChoiceMethod = 0,
+		kEditEvent,
+		kConfirmEvent,
+		kEditCondition,
+		kConfirmCondition,
+		kTerminate,
+	};
+
 	int choiceMethod();
 
-	int editEvent(Event proposed = Event());
-	std::vector<int> pickParticipants();
-	void addEvent(const Event& event);
+	bool editEvent(Event& event);
+	bool confirmEvent(const Event& event);
+	bool addEvent(const Event& event);
 
-	Event editEventCondition();
+	bool editEventCondition(EventCondition& condition);
+	bool proposeEvent(const EventCondition& condition, Event& event);
+	bool confirmCondition(const EventCondition& condition);
+
+	std::vector<int> pickParticipants();
 	std::vector<Event> collectEvents(std::vector<int> target_people);
-	bool proposeEvent(
-		EventCondition cd,
-		const std::vector<Event>& events,
-		Event& out_event
-	);
 
 	std::vector<Person>* people_;
 	std::vector<Event>* events_;
+	Mode mode_;
 };

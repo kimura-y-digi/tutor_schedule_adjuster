@@ -25,7 +25,7 @@ int Person::removeMeFromEvents(std::vector<Event>* related_events) {
 	return num_remove;
 }
 
-int Person::getId() {
+int Person::getId() const {
 	return id_;
 }
 
@@ -33,7 +33,7 @@ void Person::setId(int id) {
 	id_ = id;
 }
 
-std::string Person::getName() {
+std::string Person::getName() const {
 	return name_;
 }
 
@@ -41,7 +41,7 @@ void Person::setName(std::string name) {
 	name_ = name;
 }
 
-std::string Person::getEventsString() {
+std::string Person::getEventsString() const {
 	std::string ret;
 	for (auto it = events_.begin(); it != events_.end(); ++it) {
 		ret += *it;

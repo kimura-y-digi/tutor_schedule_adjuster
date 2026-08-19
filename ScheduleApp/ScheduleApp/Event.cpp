@@ -38,7 +38,7 @@ bool Event::hasEmpty() {
 	}
 }
 
-int Event::getId() {
+int Event::getId() const {
 	return id_;
 }
 
@@ -46,7 +46,7 @@ void Event::setId(int id) {
 	id_ = id;
 }
 
-std::string Event::getName() {
+std::string Event::getName() const {
 	return name_;
 }
 
@@ -54,7 +54,11 @@ void Event::setName(std::string name) {
 	name_ = name;
 }
 
-std::string Event::getParticipantsString() {
+const std::vector<int>& Event::getParticipants() const {
+	return participants_;
+}
+
+std::string Event::getParticipantsString() const {
 	std::string ret;
 	for (auto it = participants_.begin(); it != participants_.end(); ++it) {
 		ret += *it;
@@ -93,7 +97,7 @@ void Event::removeParticipant(int person_id) {
 	}
 }
 
-std::string Event::getStartDateTimeString() {
+std::string Event::getStartDateTimeString() const {
 	return Util::sysSecondsToStr(start_datetime_);
 }
 
@@ -101,7 +105,7 @@ void Event::setStartDateTime(std::string start_datetime) {
 	start_datetime_ = Util::strToSysSeconds(start_datetime);
 }
 
-std::string Event::getEndDateTimeString() {
+std::string Event::getEndDateTimeString() const {
 	return Util::sysSecondsToStr(end_datetime_);
 }
 

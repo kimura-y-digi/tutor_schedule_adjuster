@@ -12,17 +12,18 @@ public:
 	int removeThisFromParticipants();
 
 	bool hasEmpty();
-	int getId();
+	int getId() const;
 	void setId(int id);
-	std::string getName();
+	std::string getName() const;
 	void setName(std::string name);
-	std::string getParticipantsString();
+	const std::vector<int>& getParticipants() const ;
+	std::string getParticipantsString() const ;
 	void setParticipantFromString(std::string participants);
 	void addParticipant(int person_id);
 	void removeParticipant(int person_id);
-	std::string getStartDateTimeString();
+	std::string getStartDateTimeString() const;
 	void setStartDateTime(std::string start_datetime);
-	std::string getEndDateTimeString();
+	std::string getEndDateTimeString() const;
 	void setEndDateTime(std::string end_datetime);
 	static void updateMaxId(int max_id);
 
