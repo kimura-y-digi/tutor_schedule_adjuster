@@ -12,7 +12,7 @@ const std::string Util::kDateTimeFormat = "%Y-%s-%d %H:%M:%S";
 std::string Util::sysSecondsToStr(std::chrono::sys_seconds seconds) {
 	std::string ret;
 	try {
-		ret = std::format("{}", kDateTimeFormat.c_str(), seconds);
+		ret = std::format("{:%Y-%s-%d %H:%M:%S}", seconds);
 	}
 	catch (...) {
 		std::cerr << "FAILED : Util::sysSecondsToStr()" << std::endl;
@@ -43,4 +43,8 @@ std::string Util::vectorIntToStr(const std::vector<int> array) {
 	}
 
 	return ret;
+}
+
+void Util::test(std::ostringstream& oss) {
+	std::cout << oss.str() << std::endl;
 }

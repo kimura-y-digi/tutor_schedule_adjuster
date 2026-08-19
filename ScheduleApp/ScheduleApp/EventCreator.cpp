@@ -141,15 +141,21 @@ bool EventCreator::editEvent(Event& event) {
 		user_input = input_handler->receiveNumberAllowNine(4);
 
 		if (user_input == 1) {
+			std::cout << "予定の開始日時 を入力してください" << std::endl << std::endl;
+			event.setName(input_handler->receiveString());
 			continue;
 		}
 		else if (user_input == 2) {
 			continue;
 		}
 		else if (user_input == 3) {
+			std::cout << "予定の終了日時 を入力してください" << std::endl << std::endl;
+			event.setName(input_handler->receiveString());
 			continue;
 		}
 		else if (user_input == 4) {
+			std::cout << "予定の名前 を入力してください" << std::endl << std::endl;
+			event.setName(input_handler->receiveString());
 			continue;
 		}
 		else if (user_input == 9) {
