@@ -98,11 +98,6 @@ int PersonRemover::showPeople() {
 				int selected_id = inputToId.at(user_input);
 				return selected_id;
 			}
-			else {
-				std::cerr << "意図しない入力です" << std::endl;
-				continue;
-			}
-
 		}
 	}
 }

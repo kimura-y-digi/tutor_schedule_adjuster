@@ -33,9 +33,6 @@ void PersonCreator::run() {
 	else if (input_num == 0) {
 		std::cout << "登録をやめました" << std::endl;
 	}
-	else {
-		std::cerr << "意図しない入力です" << std::endl;
-	}
 
 	std::cout << std::endl << std::endl;
 }

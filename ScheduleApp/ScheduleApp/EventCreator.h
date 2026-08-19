@@ -18,21 +18,21 @@ private:
 	enum class Mode {
 		kChoiceMethod = 0,
 		kEditEvent,
-		kConfirmEvent,
+		kConfirmRegistEvent,
 		kEditCondition,
-		kConfirmCondition,
+		kConfirmProposedEvent,
 		kTerminate,
 	};
 
 	int choiceMethod();
 
 	bool editEvent(Event& event);
-	bool confirmEvent(const Event& event);
+	bool confirmRegistEvent(const Event& event);
 	bool addEvent(const Event& event);
 
 	bool editEventCondition(EventCondition& condition);
 	bool proposeEvent(const EventCondition& condition, Event& event);
-	bool confirmCondition(const EventCondition& condition);
+	bool confirmProposedEvent(const Event& event);
 
 	std::vector<int> pickParticipants();
 	std::vector<Event> collectEvents(std::vector<int> target_people);
